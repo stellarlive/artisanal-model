@@ -7,7 +7,7 @@ module Artisanal::Model
     extend Forwardable
 
     attr_reader :klass
-    attr_accessor :config
+    attr_writer :config
 
     delegate [:dry_initializer] => :klass
     delegate [:definitions, :null] => :dry_initializer
@@ -22,7 +22,9 @@ module Artisanal::Model
       klass.include Attribute.new(name, type, **config.defaults.merge(opts))
     end
 
-    def attributes(instance, scope: :public, include_undefined: false)
+    def attributes(instance, **kwargs)
+      scope = kwargs.fetch(:scope, :public)
+      include_undefined = kwargs.fetch(:include_undefined, false)
       schema.values.each_with_object({}) do |item, attrs|
         next unless attribute_in_scope?(instance, item.target, scope)
         next unless include_undefined || attribute_defined?(instance, item.target)
@@ -47,14 +49,14 @@ module Artisanal::Model
       end
     end
 
-    def to_h(instance, *args)
-      attributes(instance, *args).each_with_object({}) do |(key, value), result|
+    def to_h(instance, **args)
+      attributes(instance, **args).each_with_object({}) do |(key, value), result|
         if value.is_a? Hash
           result[key] = value
         elsif value.is_a? Enumerable
-          result[key] = value.map { |v| v.respond_to?(:to_h) ? v.to_h(*args) : v }
+          result[key] = value.map { |v| v.respond_to?(:to_h) ? v.to_h(**args) : v }
         elsif !value.nil? && value.respond_to?(:to_h)
-          result[key] = value.to_h(*args)
+          result[key] = value.to_h(**args)
         else
           result[key] = value
         end
