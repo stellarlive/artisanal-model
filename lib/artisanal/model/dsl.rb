@@ -9,7 +9,7 @@ module Artisanal::Model
     end
 
     def inherited(subclass)
-      subclass.include Artisanal::Model(artisanal_model.config.options)
+      subclass.include Artisanal::Model(**artisanal_model.config.options)
       super(subclass)
     end
 
@@ -21,8 +21,8 @@ module Artisanal::Model
       artisanal_model.schema
     end
 
-    def attribute(*args)
-      artisanal_model.attribute(*args)
+    def attribute(*args, **kwargs)
+      artisanal_model.attribute(*args, **kwargs)
     end
 
     module InstanceMethods
@@ -34,8 +34,8 @@ module Artisanal::Model
         artisanal_model.attributes(self, *args)
       end
 
-      def to_h(*args)
-        artisanal_model.to_h(self, *args)
+      def to_h(**args)
+        artisanal_model.to_h(self, **args)
       end
     end
   end
