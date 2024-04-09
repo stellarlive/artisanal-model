@@ -5,12 +5,12 @@ require "artisanal/model/version"
 Gem::Specification.new do |spec|
   spec.name          = "artisanal-model"
   spec.version       = Artisanal::Model::VERSION
-  spec.authors       = ["Jared Hoyt, Matthew Peychich"]
-  spec.email         = ["jaredhoyt@gmail.com, mpeychich@mac.com"]
+  spec.authors       = ["Jared Hoyt, Matthew Peychich", "Nicolas Quintana"]
+  spec.email         = ["jaredhoyt@gmail.com, mpeychich@mac.com", "nicolas.quintana@razortech.com.ar"]
 
-  spec.summary       = %q{A light attributes wrapper for dry-initializer}
-  spec.description   = %q{A light attributes wrapper for dry-initializer}
-  spec.homepage      = "https://github.com/goldstar/artisanal-model"
+  spec.summary       = %q{A light attributes wrapper for dry-initializer.}
+  spec.description   = %q{A light attributes wrapper for dry-initializer. Forked from "https://github.com/goldstar/artisanal-model"}
+  spec.homepage      = "https://github.com/stellarlive/artisanal-model"
   spec.license       = "MIT"
 
   # Specify which files should be added to the gem when it is released.

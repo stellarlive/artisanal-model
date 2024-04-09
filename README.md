@@ -1,6 +1,9 @@
 # artisanal-model
+This has been forked from [goldstar/artisanal-model](https://github.com/goldstar/artisanal-model).
 
 Artisanal::Model is a light-weight attribute modeling DSL that wraps [dry-initializer](https://dry-rb.org/gems/dry-initializer/), providing extra configuration and a slightly cleaner DSL.
+
+The fork intends to patch some keyword argument caveats that were necessary for Stellar to upgrade to Ruby 3.0.6. The original functionality is meant to be kept intact.
 
 ## Installation
 
@@ -17,7 +20,7 @@ And then execute:
 Or install it yourself as:
 
     $ gem install artisanal-model
-    
+
 ## Configuration
 
 Artisanal::Model configuration is done on a per-model basis. There is no global configuration (at this time):
@@ -168,7 +171,7 @@ class Tag < Model
   attribute :name
 end
 
-class Person < Model  
+class Person < Model
   attribute :name
   attribute :address, Address
   attribute :tags, Array[Tag]
@@ -192,10 +195,10 @@ attrs = {
 
 Person.new(attrs).tap do |person|
   person.name #=> 'John Smith'
-  
+
   person.address.street #=> '123 Main St.'
   person.address.zip #=> '97213'
-  
+
   person.tags.count #=> 2
   person.tags.first.name #=> 'Ruby'
 end
@@ -210,7 +213,7 @@ Artisanal::Model can also add writer methods that aren't provided from dry-initi
 
 class Person < Model
   attribute :name
-  attribute :email, writer: false 
+  attribute :email, writer: false
   attribute :phone, writer: :protected # the same as adding `protected :phone`
   attribute :age,   writer: :private   # the same as adding `private :age`
 end
@@ -242,10 +245,10 @@ class Person < Model
   attribute :email
   attribute :age
 end
-  
+
 Person.new(name: 'John Smith', email: 'john@example.com', age: '37').tap do |person|
   person.name #=> 'John Smith'
-  
+
   person.assign_attributes(name: 'Bob Johnson', email: 'bob@example.com')
 
   person.name #=> 'Bob Johnson'
@@ -276,7 +279,7 @@ end
 
 ### undefined attributes
 
-Dry-initializer [differentiates](https://dry-rb.org/gems/dry-initializer/skip-undefined/) between a `nil` value passed in for an attribute and nothing passed in at all. 
+Dry-initializer [differentiates](https://dry-rb.org/gems/dry-initializer/skip-undefined/) between a `nil` value passed in for an attribute and nothing passed in at all.
 
 This can be turned off through Artisanal::Model for performance reasons if you don't care about the differences between `nil` and undefined. However, if turned on, serializing to a hash will also exclude undefined values by default:
 
